@@ -4,8 +4,8 @@ class Player {
     this.health = 200;
     this.name = null;
     this.rank = null;
-    this.xPos = width/2-30;
-    this.yPos = height-200;
+    this.xPos = 0;
+    this.yPos = height-200; 
   }
 
   
@@ -44,10 +44,24 @@ class Player {
   updatePosition(x,y){
     var playerIndex = "players/player" + this.index;
     database.ref(playerIndex +'/position').update({
-      x : this.xPos + x,
-      y : this.yPos + y
+      x : x,
+      y : y
     })
-    
+  }
+
+  getHealth(){
+    var playerIndex = "players/player" + this.index ;
+    var playerhealth=database.ref(playerIndex+'/health');
+    playerhealth.on("value",(data)=>{
+      this.health = data.val();
+    })
+  }
+
+  updateHealth(index,health){
+    var playerIndex = "players/player" + index;
+    database.ref(playerIndex).update({
+      health : 200 - health
+    })
   }
 
   static getPlayerInfo(){
